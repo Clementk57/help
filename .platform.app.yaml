@@ -8,10 +8,6 @@ dependencies:
     php:
         symfony/runtime: "*"
 
-composer:
-    allow-plugins:
-        symfony/runtime: true
-
 runtime:
     extensions:
         - pdo_mysql
