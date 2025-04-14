@@ -1,4 +1,5 @@
 name: app
+
 type: php:8.2
 build:
     flavor: symfony
@@ -7,6 +8,10 @@ dependencies:
     php:
         symfony/runtime: "*"
 
+composer:
+    allow-plugins:
+        symfony/runtime: true
+
 runtime:
     extensions:
         - pdo_mysql
@@ -14,10 +19,10 @@ runtime:
 web:
     commands:
         start: |
-            symfony-server start --no-tls --port 8080
+            symfony server:start --no-tls --port=8080 --dir=public
 
 mounts:
-    '/public/uploads': 'shared:files'
+    "/public/uploads": "shared:files"
 
 disk: 512
 
