@@ -10,9 +10,9 @@ hooks:
         composer install --no-dev --prefer-dist --no-scripts --no-interaction
 
     deploy: |
-        composer run-script post-install-cmd --no-dev --no-interaction
         php bin/console doctrine:migrations:migrate --no-interaction
         php bin/console cache:clear
+
 
 runtime:
     extensions:
