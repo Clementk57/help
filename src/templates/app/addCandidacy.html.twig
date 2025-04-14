@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une candidature{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une candidature</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success mt-3">Soumettre</button>
+    {{ form_end(form) }}
+{% endblock %}

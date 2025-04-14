@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <h1>Liste des offres</h1>
+
+    <ul>
+        {% for offer in offers %}
+            <li>{{ offer.titre }} - <a href="{{ path('app_offer_detail', {id: offer.id}) }}">Voir</a></li>
+        {% else %}
+            <li>Aucune offre disponible.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('app_add_offer') }}">➕ Ajouter une offre</a>
+{% endblock %}
