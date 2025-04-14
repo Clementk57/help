@@ -67,7 +67,6 @@
     },
     "scripts": {
         "auto-scripts": {
-            "cache:clear": "@echo Skipping cache:clear during build",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
