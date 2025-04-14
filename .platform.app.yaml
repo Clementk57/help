@@ -2,7 +2,17 @@ name: app
 
 type: php:8.2
 build:
-    flavor: symfony
+    flavor: composer
+    commands:
+        build: |
+            composer install --no-dev --prefer-dist --no-scripts --no-interaction
+
+deploy:
+    commands:
+        deploy: |
+            composer run-script post-install-cmd --no-dev --no-interaction
+            php bin/console doctrine:migrations:migrate --no-interaction
+            php bin/console cache:clear
 
 runtime:
     extensions:
@@ -11,7 +21,7 @@ runtime:
 web:
     commands:
         start: |
-            symfony server:start --no-tls --port=8080 --dir=public
+            php -S 0.0.0.0:8080 -t public
 
 mounts:
     "/public/uploads": "shared:files"
