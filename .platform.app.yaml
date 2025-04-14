@@ -1,0 +1,31 @@
+name: app
+type: php:8.2
+build:
+    flavor: symfony
+
+dependencies:
+    php:
+        symfony/runtime: "*"
+
+runtime:
+    extensions:
+        - pdo_mysql
+
+web:
+    commands:
+        start: |
+            symfony-server start --no-tls --port 8080
+
+mounts:
+    '/public/uploads': 'shared:files'
+
+disk: 512
+
+relationships:
+    database: "mysql:mysql"
+
+variables:
+    env:
+        APP_ENV: "prod"
+        APP_SECRET: "changeme"
+        DATABASE_URL: "mysql://app:!ChangeMe!@database.internal/app"
