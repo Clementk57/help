@@ -4,10 +4,6 @@ type: php:8.2
 build:
     flavor: symfony
 
-dependencies:
-    php:
-        symfony/runtime: "*"
-
 runtime:
     extensions:
         - pdo_mysql
