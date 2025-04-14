@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'offre{% endblock %}
+
+{% block body %}
+    <h1>Modifier l'offre</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-warning mt-3">Modifier</button>
+    {{ form_end(form) }}
+{% endblock %}
