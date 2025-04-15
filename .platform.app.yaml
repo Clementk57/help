@@ -13,7 +13,6 @@ hooks:
         php bin/console doctrine:migrations:migrate --no-interaction || true
         php bin/console cache:clear || true
 
-
 runtime:
     extensions:
         - pdo_mysql
@@ -28,11 +27,10 @@ mounts:
 disk: 512
 
 relationships:
-    database: "mysql:mysql"
+    database: "mariadb:mariadb"
 
 variables:
     env:
         APP_ENV: "prod"
         APP_SECRET: "changeme"
         DATABASE_URL: "mysql://app:!ChangeMe!@database.internal/app"
-
