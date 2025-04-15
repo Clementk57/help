@@ -66,7 +66,6 @@
         "symfony/polyfill-php82": "*"
     },
     "scripts": {
-        
         "post-install-cmd": [
             "@auto-scripts"
         ],
@@ -80,7 +79,10 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.2.*"
+            "require": "7.2.*",
+            "auto-scripts": {
+                "assets:install public": "symfony-cmd"
+            }
         }
     },
     "require-dev": {
