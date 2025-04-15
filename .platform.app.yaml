@@ -1,36 +1,60 @@
 name: app
 
-type: php:8.2
-
-build:
-    flavor: composer
-
-hooks:
-    build: |
-        composer install --no-dev --prefer-dist --no-scripts --no-interaction
-
-    deploy: |
-        php bin/console doctrine:migrations:migrate --no-interaction || true
-        php bin/console cache:clear || true
+type: php:8.4
 
 runtime:
     extensions:
-        - pdo_mysql
+        - apcu
+        - mbstring
+        - sodium
+        - ctype
+        - iconv
+        
+
+#variables:
+#    php:
+#        # uncomment on PHP 7.4+
+#        #opcache.preload: config/preload.php
+
+build:
+    flavor: none
+
+disk: 1024
 
 web:
-    commands:
-        start: php -S 0.0.0.0:8080 -t public
+    locations:
+        "/":
+            root: "public"
+            expires: 1h
+            passthru: "/index.php"
 
 mounts:
-    "/public/uploads": "shared:files"
+    "/var/cache": { source: local, source_path: var/cache }
+    
 
-disk: 512
+hooks:
+    build: |
+        set -x -e
+
+        curl -fs https://get.symfony.com/cloud/configurator | bash
+        
+        NODE_VERSION=22 symfony-build
+
+    deploy: |
+        set -x -e
+
+        symfony-deploy
+
+crons:
+    security-check:
+        # Check that no security issues have been found for PHP packages deployed in production
+        spec: '50 23 * * *'
+        cmd: if [ "$PLATFORM_ENVIRONMENT_TYPE" = "production" ]; then croncape COMPOSER_ROOT_VERSION=1.0.0 COMPOSER_AUDIT_ABANDONED=ignore composer audit --no-cache; fi
+    clean-expired-sessions:
+        spec: '17,47 * * * *'
+        cmd: croncape php-session-clean
 
 relationships:
-    database: "db:mysql"  # <-- ICI : 'db' correspond au nom de ton service !
+    database:
 
-variables:
-    env:
-        APP_ENV: "prod"
-        APP_SECRET: "changeme"
-        DATABASE_URL: "mysql://app:!ChangeMe!@database.internal/app"
+
