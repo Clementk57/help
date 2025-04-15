@@ -27,7 +27,7 @@ mounts:
 disk: 512
 
 relationships:
-    database: "mariadb:mariadb"
+    database: "db:mysql"  # <-- ICI : 'db' correspond au nom de ton service !
 
 variables:
     env:
